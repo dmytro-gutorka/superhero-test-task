@@ -2,10 +2,10 @@
 CREATE TABLE "Superhero" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "nickname" TEXT NOT NULL,
-    "real_name" TEXT,
-    "origin_description" TEXT,
+    "realName" TEXT,
+    "originDescription" TEXT,
     "superpowers" TEXT NOT NULL,
-    "catch_phrase" TEXT,
+    "catchPhrase" TEXT,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL
 );

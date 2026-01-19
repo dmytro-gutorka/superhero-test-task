@@ -1,1 +1,0 @@
-export const DEFAULT_MAX_REQUEST_BODY_SIZE = '1mb'
