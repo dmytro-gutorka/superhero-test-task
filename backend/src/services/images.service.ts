@@ -11,7 +11,7 @@ export const imagesService = {
 
         if (!hero) throw HttpError.notFound("Superhero", superheroId);
 
-        const urls = files.map((f) => buildImageUrl(f.filename));
+        const urls = files.map((file) => buildImageUrl(file.filename));
         await imagesRepo.createManyForSuperhero(superheroId, urls);
 
         return { uploaded: urls.length, urls };
@@ -23,9 +23,9 @@ export const imagesService = {
         if (!image) throw HttpError.notFound("Image", imageId);
 
         await imagesRepo.deleteById(imageId);
-        const fp = resolveImagePathFromUrl(image.url);
+        const imagePath = resolveImagePathFromUrl(image.url);
 
-        if (fp) await safeUnlink(fp);
+        if (imagePath) await safeUnlink(imagePath);
 
         return { deleted: true };
     },
@@ -38,9 +38,9 @@ export const imagesService = {
 
         await Promise.all(
             images
-                .map((img) => resolveImagePathFromUrl(img.url))
-                .filter((p): p is string => Boolean(p))
-                .map((p) => safeUnlink(p)),
+                .map((image) => resolveImagePathFromUrl(image.url))
+                .filter((path): path is string => Boolean(path))
+                .map((path) => safeUnlink(path)),
         );
 
         return { deleted: images.length };

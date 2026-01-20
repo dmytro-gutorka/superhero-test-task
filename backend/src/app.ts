@@ -3,7 +3,7 @@ import cors from "cors";
 import express from "express";
 import path from "path";
 
-import { defaultMaxRequestBodySize} from "./constants/defaultConfig.constants";
+import { defaultMaxRequestBodySize } from "./constants/defaultConfig.constants";
 import { router } from "./routes";
 import { env } from "./utils/env.utils";
 import { errorMiddleware } from "./middleware/errorMiddleware";

@@ -11,7 +11,7 @@ import {
     defaultMaxLimit,
     defaultMinLimit,
     defaultMinPage,
-    defaultPage
+    defaultPage,
 } from "../constants/defaultQueryParams.constants";
 
 async function _ensureHeroExists(id: string) {
@@ -52,7 +52,10 @@ function _buildUpdateData(dto: SuperheroUpdateDto): Prisma.SuperheroUpdateInput 
 
 export const superheroesService = {
     async list(clientPage: number, clientLimit: number) {
-        const safeLimit = Math.min(Math.max(clientLimit || defaultLimit, defaultMinLimit), defaultMaxLimit);
+        const safeLimit = Math.min(
+            Math.max(clientLimit || defaultLimit, defaultMinLimit),
+            defaultMaxLimit,
+        );
         const safePage = Math.max(clientPage || defaultPage, defaultMinPage);
         const skip = (safePage - 1) * safeLimit;
 

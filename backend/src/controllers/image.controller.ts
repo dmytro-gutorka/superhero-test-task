@@ -13,9 +13,9 @@ class ImagesController {
     };
 
     remove = async (req: Request, res: Response) => {
-        const id = getStringParam(req.params.id);
+        const imageId = getStringParam(req.params.imageId, "imageId");
 
-        await imagesService.removeImage(id);
+        await imagesService.removeImage(imageId);
 
         res.status(204).send();
     };

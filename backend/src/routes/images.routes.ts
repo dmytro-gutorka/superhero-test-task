@@ -2,7 +2,7 @@ import { Router } from "express";
 import { asyncHandler } from "../middleware/asyncHandler";
 import { imagesController } from "../controllers/image.controller";
 import { uploadImages } from "../middleware/upload";
-import {maxImagesCount} from "../constants/images.constants";
+import { maxImagesCount } from "../constants/images.constants";
 
 export const imagesRouter = Router();
 

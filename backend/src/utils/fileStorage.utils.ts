@@ -1,6 +1,6 @@
-import path from "path";
-import { promises as fs } from "fs";
 import { env } from "./env.utils";
+import { promises as fs } from "fs";
+import path from "path";
 
 export function buildImageUrl(filename: string): string {
     return `${env.SERVER_BASE_URL}/static/${filename}`;
@@ -20,16 +20,11 @@ export function resolveImagePathFromUrl(url: string): string | null {
 }
 
 export async function safeUnlink(filePath: string): Promise<boolean> {
-
     try {
-
         await fs.unlink(filePath);
         return true;
-
     } catch (err: any) {
-
         if (err?.code === "ENOENT") return false;
         throw err;
-
     }
 }
