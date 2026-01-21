@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="49f2d48e-4869-46fd-acc8-11cbfe096c5d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/backend/dev.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/prisma/migrations/20260121130422_init/migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/prisma/migrations/migration_lock.toml" beforeDir="false" />
-    </list>
+    <list default="true" id="49f2d48e-4869-46fd-acc8-11cbfe096c5d" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -99,7 +95,7 @@
       <workItem from="1768906774604" duration="598000" />
       <workItem from="1768928855737" duration="14659000" />
       <workItem from="1768977070689" duration="14439000" />
-      <workItem from="1768997559134" duration="2496000" />
+      <workItem from="1768997559134" duration="2837000" />
     </task>
     <servers />
   </component>
