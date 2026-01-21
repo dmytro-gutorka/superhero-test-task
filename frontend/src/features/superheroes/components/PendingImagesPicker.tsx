@@ -1,14 +1,14 @@
 import { Box, Chip, Stack } from "@mui/material";
 import { ImageUploader } from "./ImageUploader";
 
-type Props = {
+type PendingImagesPickerProps = {
     files: File[];
     setFiles: (files: File[]) => void;
     disabled?: boolean;
     maxFiles?: number;
 };
 
-export function PendingImagesPicker({ files, setFiles, disabled, maxFiles = 10 }: Props) {
+export function PendingImagesPicker({ files, setFiles, disabled, maxFiles = 10 }: PendingImagesPickerProps) {
     return (
         <Box>
             <Stack

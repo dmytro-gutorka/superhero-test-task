@@ -1,8 +1,10 @@
 import { Box, Stack, TextField } from "@mui/material";
 import type { CreateSuperheroDto, SuperheroDto, UpdateSuperheroDto } from "../../../api/types";
 import { useMemo, useState } from "react";
+import {toLines} from "../../../utils/toLines.ts";
+import {fromLines} from "../../../utils/fromLines.ts";
 
-type Props = {
+type PropsSuperheroForm = {
     mode: "create" | "edit";
     initial?: SuperheroDto;
     submitting?: boolean;
@@ -10,17 +12,7 @@ type Props = {
     formId?: string;
 };
 
-function toLines(arr: string[] | undefined) {
-    return (arr ?? []).join("\n");
-}
-function fromLines(text: string) {
-    return text
-        .split("\n")
-        .map((s) => s.trim())
-        .filter(Boolean);
-}
-
-export function SuperheroForm({ mode, initial, onSubmit, formId }: Props) {
+export function SuperheroForm({ mode, initial, onSubmit, formId }: PropsSuperheroForm) {
     const defaults = useMemo(() => {
         return {
             nickname: initial?.nickname ?? "",

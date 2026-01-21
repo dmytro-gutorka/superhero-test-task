@@ -1,27 +1,49 @@
-import { useState } from "react";
-import { Alert, Box, Button, CircularProgress, Stack, Typography, useTheme } from "@mui/material";
+import { Alert, Box, CircularProgress, Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSuperhero } from "../hooks/useSuperhero";
 import { useUpdateSuperhero } from "../hooks/useUpdateSuperhero";
 import { useUploadImages } from "../hooks/useUploadImages";
 import { SuperheroForm } from "../components/SuperheroForm";
-import { ImageUploader } from "../components/ImageUploader";
-import { ImagesGallery } from "../components/ImagesGallery";
-import { useSnackbar } from "../../../ui/Snackbar.tsx";
+import { PageCard } from "../../../ui/PageCard.tsx";
+import { FormFooter } from "../../../ui/FormFooter.tsx";
+import { useNotifyAsync } from "../../../app/hooks/useNotifyAsync.ts";
+import { SuperheroImagesSection } from "../components/SuperheroImagesSection.tsx";
+import type { CreateSuperheroDto, UpdateSuperheroDto } from "../../../api/types.ts";
 
 const FORM_ID = "edit-superhero-form";
 
 export function SuperheroEditPage() {
     const { id = "" } = useParams<{ id: string }>();
-    const { notify } = useSnackbar();
     const navigate = useNavigate();
-    const theme = useTheme();
+    const run = useNotifyAsync();
 
     const heroQuery = useSuperhero(id);
     const update = useUpdateSuperhero(id);
     const upload = useUploadImages(id);
 
-    const [selectedImageIds, setSelectedImageIds] = useState<string[]>([]);
+    async function handleUpload(files: File[]) {
+        await run(() => upload.mutateAsync(files), {
+            success: "Images uploaded",
+            error: "Failed to upload images",
+        });
+    }
+
+    async function handleRemoveSelected(ids: string[]) {
+        if (!ids.length) return;
+        await run(() => update.mutateAsync({ removeImageIds: ids }), {
+            success: `Removed ${ids.length} image(s)`,
+            error: "Failed to remove selected images",
+        });
+    }
+
+    async function handleSubmit(dto: CreateSuperheroDto | UpdateSuperheroDto) {
+        const updated = await run(() => update.mutateAsync(dto as any), {
+            success: "Saved",
+            error: "Failed to update",
+        });
+        if (!updated) return;
+        navigate(`/superheroes/${updated.id}`);
+    }
 
     if (heroQuery.isLoading) {
         return (
@@ -38,16 +60,7 @@ export function SuperheroEditPage() {
     const hero = heroQuery.data;
 
     return (
-        <Box
-            sx={{
-                padding: 4,
-                backgroundColor: "white",
-                borderRadius: theme.shape.borderRadiusS,
-                boxShadow: theme.shadows[5],
-                maxWidth: 850,
-                margin: "auto",
-            }}
-        >
+        <PageCard>
             <Typography variant="h4" fontWeight={800} sx={{ mb: 3 }}>
                 Edit: {hero.nickname}
             </Typography>
@@ -57,69 +70,23 @@ export function SuperheroEditPage() {
                 mode="edit"
                 initial={hero}
                 submitting={update.isPending}
-                onSubmit={async (dto) => {
-                    try {
-                        const updated = await update.mutateAsync(dto as any);
-                        notify("Saved", "success");
-                        navigate(`/superheroes/${updated.id}`);
-                    } catch (e: any) {
-                        notify(e?.message ?? "Failed to update", "error");
-                    }
-                }}
+                onSubmit={handleSubmit}
             />
-            <Stack width="100%" alignItems="center" justifyContent="space-between" sx={{ mb: 2 }}>
-                <ImageUploader
-                    disabled={upload.isPending}
-                    onFilesSelected={async (files) => {
-                        try {
-                            await upload.mutateAsync(files);
-                            notify("Images uploaded", "success");
-                        } catch (e: any) {
-                            notify(e?.message ?? "Failed to upload images", "error");
-                        }
-                    }}
-                />
-                {hero.images.length === 0 ? (
-                    <Alert sx={{ my: 2 }} severity="info">
-                        This hero does not have any images yet.
-                    </Alert>
-                ) : (
-                    <ImagesGallery
-                        images={hero.images}
-                        selectedIds={selectedImageIds}
-                        setSelectedIds={setSelectedImageIds}
-                        removing={update.isPending}
-                        onRemoveSelected={async () => {
-                            try {
-                                await update.mutateAsync({ removeImageIds: selectedImageIds });
-                                notify(`Removed ${selectedImageIds.length} image(s)`, "success");
-                                setSelectedImageIds([]);
-                            } catch (e: any) {
-                                notify(e?.message ?? "Failed to remove selected images", "error");
-                            }
-                        }}
-                    />
-                )}
-            </Stack>
 
-            <Stack
-                flexDirection="row"
-                sx={{ mt: 4, display: "flex", justifyContent: "space-between", gap: 1 }}
-            >
-                <Button
-                    form={FORM_ID}
-                    type="submit"
-                    variant="contained"
-                    size="large"
-                    disabled={update.isPending}
-                    sx={{ flexGrow: 0.8 }}
-                >
-                    Save changes
-                </Button>
-                <Button variant="outlined" sx={{ flexGrow: 0.15 }} onClick={() => navigate(-1)}>
-                    Cancel
-                </Button>
-            </Stack>
-        </Box>
+            <SuperheroImagesSection
+                hero={hero}
+                isUploading={upload.isPending}
+                isRemoving={update.isPending}
+                onUpload={handleUpload}
+                onRemoveSelected={handleRemoveSelected}
+            />
+
+            <FormFooter
+                formId={FORM_ID}
+                submitText="Save changes"
+                isBusy={update.isPending}
+                onCancel={() => navigate(-1)}
+            />
+        </PageCard>
     );
 }

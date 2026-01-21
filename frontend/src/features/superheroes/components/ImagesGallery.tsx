@@ -4,7 +4,7 @@ import { DeleteButtonIcon } from "../../../ui/Icons/DeleteButtonIcon.tsx";
 import { SelectAllIcon } from "../../../ui/Icons/SelectAllIcon.tsx";
 import { UnselectAllIcon } from "../../../ui/Icons/UnselectAllIcon.tsx";
 
-type Props = {
+type ImagesGalleryProps = {
     images: ImageDto[];
     selectedIds: string[];
     setSelectedIds: (ids: string[]) => void;
@@ -18,7 +18,7 @@ export function ImagesGallery({
     setSelectedIds,
     onRemoveSelected,
     removing,
-}: Props) {
+}: ImagesGalleryProps) {
     const allSelected = images.length > 0 && selectedIds.length === images.length;
 
     function handleSelectAll() {
