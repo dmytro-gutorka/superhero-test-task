@@ -10,8 +10,8 @@ import { errorMiddleware } from "./middleware/errorMiddleware";
 
 export const app = express();
 
-app.use(helmet());
-app.use(cors());
+app.use(cors({ origin: env.CLIENT_BASE_URL }));
+app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
 app.use(express.json({ limit: defaultMaxRequestBodySize }));
 
 app.use("/static", express.static(path.resolve(env.UPLOAD_DIR)));
