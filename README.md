@@ -33,9 +33,10 @@ Full-stack web app to manage a superhero database with CRUD operations and image
 - Node.js 18+ (recommended)
 - npm (or yarn/pnpm)
 
+## Notes
+- .env file is stored in the repo, just to make project setup a little easier)
 
 # Backend Setup 
-P.S .env file is stored in the repo, just to make project setup a little easier
 
 ## 1) Install dependencies
 
@@ -43,6 +44,17 @@ P.S .env file is stored in the repo, just to make project setup a little easier
 cd backend
 npm install
 ```
+
+## 2) Environment variables (this step can be skipped)
+```bash
+DATABASE_URL="file:./dev.db"
+
+SERVER_BASE_URL=http://localhost:4000
+SERVER_PORT=4000
+
+UPLOAD_DIR=uploads
+```
+
 
 ## 3) Prisma migrate (create DB tables)
 
@@ -58,8 +70,7 @@ npm run dev
 ```
 
 
-# Frontend Setup (from zero)
-P.S .env file is stored in the repo, just to make project setup a little easier
+# Frontend Setup
 
 ## 1) Install dependencies
 
@@ -68,14 +79,16 @@ cd ../frontend
 npm install
 ```
 
-## 2) Run frontend
+## 2) Environment variables (this step can be skipped)
+```bash
+VITE_SERVER_BASE_URL=http://localhost:4000/api/v1
+```
+
+## 3) Run frontend
 
 ```bash
 npm run dev
 ```
-
-P.S .env file is stored in the repo, just to make setup a little easier
-
 
 
 ## Images
