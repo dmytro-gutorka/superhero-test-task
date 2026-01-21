@@ -27,10 +27,6 @@ export class HttpError extends Error {
         return new HttpError(400, ErrorMessages.badRequest, errorMessage, errorDetails);
     }
 
-    public static unauthorized(errorMessage?: string, errorDetails?: unknown): HttpError {
-        return new HttpError(401, ErrorMessages.unauthorized, errorMessage, errorDetails);
-    }
-
     public static forbidden(errorMessage?: string, errorDetails?: unknown): HttpError {
         return new HttpError(403, ErrorMessages.forbidden, errorMessage, errorDetails);
     }
