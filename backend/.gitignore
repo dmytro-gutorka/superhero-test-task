@@ -1,3 +1,4 @@
 /node_modules
 .idea
 /src/generated/prisma
+dev.db
