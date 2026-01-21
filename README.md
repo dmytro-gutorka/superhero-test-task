@@ -104,6 +104,7 @@ max files: 10
 allowed: jpeg/png/webp
 
 ## Running Tests (Backend)
+Tests are stored in backend/src/services/__tests__
 ```bash
 cd backend
 npm run test
